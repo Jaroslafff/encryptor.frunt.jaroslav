@@ -8,15 +8,15 @@ public class Cypher {
     }
 
     public String encrypt (String text4Cypher, int key) {
-        if (key < 0) key = (key % Constants.ABC_EN.length()) +  Constants.ABC_EN.length();
+        if (key < 0) key = (key % ABC_EN.length()) +  ABC_EN.length();
         StringBuilder outputStringBuilder = new StringBuilder();
 
         for (int i = 0; i < text4Cypher.length(); i++) {
             char actualChar = text4Cypher.charAt(i);
-            int inputIndex = Constants.ABC_EN.indexOf(actualChar);
+            int inputIndex = ABC_EN.indexOf(actualChar);
             if (inputIndex >= 0) {
-                int outputIndex = (inputIndex + key) % Constants.ABC_EN.length();
-                actualChar = Constants.ABC_EN.charAt(outputIndex);
+                int outputIndex = (inputIndex + key) % ABC_EN.length();
+                actualChar = ABC_EN.charAt(outputIndex);
             }
             outputStringBuilder.append(actualChar);
         }
