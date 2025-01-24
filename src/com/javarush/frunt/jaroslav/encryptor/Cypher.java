@@ -8,8 +8,10 @@ public class Cypher {
     }
 
     public String encrypt (String text4Cypher, int key) {
-        if (key < 0) key = (key % ABC_EN.length()) +  ABC_EN.length();
         StringBuilder outputStringBuilder = new StringBuilder();
+        if (key < 0) {
+            key = (key % ABC_EN.length()) +  ABC_EN.length();
+        }
 
         for (int i = 0; i < text4Cypher.length(); i++) {
             char actualChar = text4Cypher.charAt(i);

@@ -1,15 +1,11 @@
 package com.javarush.frunt.jaroslav;
 
+import com.javarush.frunt.jaroslav.command_line.CommandLine;
+import com.javarush.frunt.jaroslav.constants.Constants;
 import com.javarush.frunt.jaroslav.encryptor.Cypher;
-import com.javarush.frunt.jaroslav.encryptor.Mode;
-
-import java.nio.file.Path;
 
 public class Main {
 
-    static Mode mode;
-    static Path path;
-    static int key;
     static String originText;
     static String encryptedText;
     static String decryptedText;
@@ -18,24 +14,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        argsCheck(args);
+        CommandLine commandLine = new CommandLine(args);
 
         originText = "Test string";
-        encryptedText = cypher.encrypt(originText, key);
-        decryptedText = cypher.decrypt(encryptedText, key);
+        encryptedText = cypher.encrypt(originText, commandLine.getKey());
+        decryptedText = cypher.decrypt(encryptedText, commandLine.getKey());
         System.out.println(originText + "\n" + encryptedText + "\n" + decryptedText);
 
-        originText = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        encryptedText = cypher.encrypt(originText, key);
-        decryptedText = cypher.decrypt(encryptedText, key);
+        originText = Constants.ABC_EN;
+        encryptedText = cypher.encrypt(originText, commandLine.getKey());
+        decryptedText = cypher.decrypt(encryptedText, commandLine.getKey());
         System.out.println(originText + "\n" + encryptedText + "\n" + decryptedText);
 
-    }
-
-    static void argsCheck(String[] args) {  // TODO: Handle Exceptions
-        mode = Mode.valueOf(args[0].toUpperCase());
-        path = Path.of(args[1]);
-        key = Integer.parseInt(args[2]);
     }
 
 }

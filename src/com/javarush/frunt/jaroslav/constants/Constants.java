@@ -1,4 +1,4 @@
-package com.javarush.frunt.jaroslav.encryptor;
+package com.javarush.frunt.jaroslav.constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
