@@ -10,9 +10,27 @@ public class CommandLine {
     private int key;
 
     public CommandLine(String[] args) {
-        cypherMode = CypherMode.valueOf(args[0]);
-        path = Path.of(args[1]);
-        key = Integer.parseInt(args[2]);
+        if (args.length > 0 ) {
+            obtainCypherMode (args[0]);
+        }
+        if (args.length > 1) {
+            obtainPath (args[1]);
+        }
+        if (args.length > 2 && cypherMode == CypherMode.ENCRYPT || cypherMode == CypherMode.DECRYPT) {
+            obtainKey (args[2]);
+        }
+    }
+
+    private void obtainCypherMode(String arg) {
+        cypherMode = CypherMode.valueOf(arg);
+    }
+
+    private void obtainPath(String arg) {
+        path = Path.of(arg);
+    }
+
+    private void obtainKey(String arg) {
+        key = Integer.parseInt(arg);
     }
 
     public CypherMode getCypherMode() {
