@@ -30,4 +30,32 @@ public class Cypher {
         return encrypt(text4Cypher, -key);
     }
 
+    public void bruteForce(String text) {
+        text = text.toUpperCase();
+        int part = 1;
+        String ABC = Constants.ALPHABETS[part];
+        double freq[] = Constants.letterFreq[part];
+
+        double lettersCount[] = new double[freq.length];
+//        System.out.println(text);
+        System.out.println(text.length() + " " + lettersCount.length);
+        for (int i = 0; i < text.length(); i++) {
+            char charAt = text.charAt(i);
+            int charIndex = ABC.indexOf(charAt);
+            if (charIndex >= 0) {
+                lettersCount[charIndex] += 1;
+            }
+        }
+
+        double averageError = 0.0;
+        for (int i = 0; i < lettersCount.length; i++) {
+            double letter = lettersCount[i] * 100 / text.length();
+            double frequency = freq[i];
+            double error = letter / frequency;
+            averageError += error;
+            System.out.println(ABC.charAt(i) + " " + (int)lettersCount[i] + " " + letter + " " + frequency + " " + error);
+        }
+        System.out.println("averageError - " + averageError / text.length());
+    }
+
 }

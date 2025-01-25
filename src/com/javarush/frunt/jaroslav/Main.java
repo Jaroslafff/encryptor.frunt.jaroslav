@@ -18,7 +18,7 @@ public class Main {
 
         CommandLine commandLine = new CommandLine(args);
 
-//        originText = fileEngine.read(commandLine.getPath());
+        originText = fileEngine.read(commandLine.getPath());
 //        encryptedText = cypher.encrypt(originText, commandLine.getKey());
 //        Path pathEncrypted = fileEngine.write(commandLine.getCypherMode(), commandLine.getPath(), encryptedText);
 //
@@ -28,10 +28,13 @@ public class Main {
 //        originText = cypher.decrypt(encryptedText, commandLine.getKey());
 //        fileEngine.write(CypherMode.DECRYPT, commandLine.getPath(), originText);
 
-        cypher(Constants.ALPHABETS[0] + Constants.ALPHABETS[1], commandLine.getKey());
-        for (int key = -50; key < 50; key++) {
-            cypher(originText = Constants.ALPHABETS[0], key);
-        }
+//        cypher(Constants.ALPHABETS[0] + Constants.ALPHABETS[1], commandLine.getKey());
+//        for (int key = -50; key < 50; key++) {
+//            cypher(originText = Constants.ALPHABETS[0], key);
+//        }
+
+        System.out.println();
+        cypher.bruteForce(originText);
 
     }
 
