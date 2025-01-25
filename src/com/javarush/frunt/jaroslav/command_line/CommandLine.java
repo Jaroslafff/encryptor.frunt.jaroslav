@@ -10,10 +10,8 @@ public class CommandLine {
     private int key;
 
     public CommandLine(String[] args) {
-        if (args.length > 0 ) {
-            obtainCypherMode (args[0]);
-        }
         if (args.length > 1) {
+            obtainCypherMode (args[0]);
             obtainPath (args[1]);
         }
         if (args.length > 2 && cypherMode == CypherMode.ENCRYPT || cypherMode == CypherMode.DECRYPT) {

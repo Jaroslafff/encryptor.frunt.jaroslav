@@ -5,7 +5,12 @@ import java.util.Arrays;
 
 public class Constants {
 
-    public static final String ABC_EN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    public static final String[] ALPHABETS = {"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+                                        "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгґдеєжзиіїйклмнопрстуфхцчшщьюя"};
+    public static final int[] engLetterFreq = { 82, 15, 28, 43, 127, 22, 20, 61, 70, 2, 8, 40, 24, 67, 75, 19, 1, 60, 63, 91, 28, 10, 24, 2, 20, 1};
+//    public static final int[][] letterFreq = { {}}
+
+
     public static final ArrayList<Character> CHAR_LIST_EN = new ArrayList<>(
             Arrays.asList(
                     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
