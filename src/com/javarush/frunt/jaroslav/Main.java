@@ -34,7 +34,8 @@ public class Main {
 //        }
 
         System.out.println();
-        cypher.bruteForce(originText);
+        encryptedString = cypher.encrypt(originText, 5);
+        System.out.println(cypher.bruteForce(encryptedString));
 
     }
 
