@@ -2,8 +2,6 @@ package com.javarush.frunt.jaroslav.encryptor;
 
 import com.javarush.frunt.jaroslav.constants.Constants;
 
-import java.util.Arrays;
-
 public class Cypher {
 
     public Cypher() {
@@ -11,10 +9,8 @@ public class Cypher {
 
     public String encrypt(String text4Cypher, int key) {
         StringBuilder outputStringBuilder = new StringBuilder();
-
         for (int i = 0; i < text4Cypher.length(); i++) {
             char actualChar = text4Cypher.charAt(i);
-
             for (String ABC : Constants.ALPHABETS) {
                 int actualCharAbcIndex = ABC.indexOf(actualChar);
                 if (actualCharAbcIndex >= 0) {
@@ -33,56 +29,63 @@ public class Cypher {
     }
 
     public int bruteForce(String encryptedText) {
-        final int KEYS_COUNT = 26;
+        int abcIndex = alphabetRecognize(encryptedText);
+        int keysCount = Constants.ALPHABETS[abcIndex].length() / 2;
         int bestKey = 0;
         double bestFreqError = Double.MAX_VALUE;
-        for (int key = 0; key < KEYS_COUNT; key++) {
+        for (int key = 0; key < keysCount; key++) {
             String decryptedText = decrypt(encryptedText, key);
-            double freqError = textFrequencyError(decryptedText);
+            double freqError = textFrequencyError(decryptedText, abcIndex);
             if (freqError < bestFreqError) {
                 bestFreqError = freqError;
                 bestKey = key;
             }
-//            System.out.println(" key - " + " " + key + " " + "\t freqError - " + " " + freqError);
+            System.out.println(" key - " + " " + key + " " + "\t freqError - " + " " + freqError);
         }
         return bestKey;
     }
 
-    private double textFrequencyError(String text) {
-        text = text.toUpperCase();
-        double bestError = Double.MAX_VALUE;
-        for (int alphabet = 0; alphabet < Constants.ALPHABETS.length; alphabet++) {
-            double averageError = alphabetAverageError(text, alphabet);
-        System.out.println("averageError - " + averageError);
-            if (averageError < bestError) bestError = averageError;
+    private int alphabetRecognize(String encryptedText) {
+        int engLetters = 0;
+        int ukrLetters = 0;
+        int ukrCharset = 1000;
+        int engAbc = 0;
+        int ukrAbc = 1;
+        for (int i = 0; i < encryptedText.length(); i++) {
+            char charAt = encryptedText.charAt(i);
+            if (charAt >= 'A' && charAt <= 'z') engLetters++;
+            if (charAt > ukrCharset) ukrLetters++;
         }
-        return bestError;
+        if (engLetters > ukrLetters) return engAbc;
+        else return ukrAbc;
     }
 
-    private static double alphabetAverageError(String text, int alphabet) {
-        String ABC = Constants.ALPHABETS[alphabet];
-        double letterFreq[] = Constants.letterFreq[alphabet];
-
-        double textLetterFreq[] = new double[letterFreq.length];
-        for (int i = 0; i < text.length(); i++) {
-            char charAt = text.charAt(i);
-            int charIndex = ABC.indexOf(charAt);
+    private double textFrequencyError(String encryptedText, int abcIndex) {
+        encryptedText = encryptedText.toUpperCase();
+        String abc = Constants.ALPHABETS[abcIndex];
+        double textLettersFreq[] = new double[abc.length() / 2];
+        for (int i = 0; i < encryptedText.length(); i++) {
+            char charAt = encryptedText.charAt(i);
+            int charIndex = abc.indexOf(charAt);
             if (charIndex >= 0) {
-                textLetterFreq[charIndex]++;
+                textLettersFreq[charIndex]++;
             }
         }
 
         double averageError = 0.0;
-        for (int i = 0; i < textLetterFreq.length; i++) {
-            double letter = textLetterFreq[i] * 100 / text.length();
-            double frequency = letterFreq[i];
+        double bestError = Double.MAX_VALUE;
+        double lettersFrequency[] = Constants.LETTERS_FREQUENCY[abcIndex];
+        for (int i = 0; i < textLettersFreq.length; i++) {
+            double letter = textLettersFreq[i] * 100 / encryptedText.length();
+            double frequency = lettersFrequency[i];
             double error = letter / frequency;
             averageError += error;
 //            System.out.println(ABC.charAt(i) + " " + (int) textLetterFreq[i] + " " + letter + " " + frequency + " " + error);
         }
-        averageError /= textLetterFreq.length;
+        averageError /= textLettersFreq.length;
         if (averageError < 0.1) averageError = Double.MAX_VALUE;
-        return averageError;
+//        System.out.println("averageError - " + averageError);
+        if (averageError < bestError) bestError = averageError;
+        return bestError;
     }
-
 }
