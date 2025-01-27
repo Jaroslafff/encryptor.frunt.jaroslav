@@ -11,7 +11,7 @@ public class Cypher {
         StringBuilder outputStringBuilder = new StringBuilder();
         for (int i = 0; i < text4Cypher.length(); i++) {
             char actualChar = text4Cypher.charAt(i);
-            for (String ABC : Constants.ALPHABETS) {
+            for (String ABC : Constants.ABCS) {
                 int actualCharAbcIndex = ABC.indexOf(actualChar);
                 if (actualCharAbcIndex >= 0) {
                     int outputIndex = (actualCharAbcIndex + key) % ABC.length();
@@ -28,9 +28,9 @@ public class Cypher {
         return encrypt(text4Cypher, -key);
     }
 
-    public int bruteForce(String encryptedText) {
+    public String bruteForce(String encryptedText) {
         int abcIndex = alphabetRecognize(encryptedText);
-        int keysCount = Constants.ALPHABETS[abcIndex].length() / 2;
+        int keysCount = Constants.ABCS[abcIndex].length() / 2;
         int bestKey = 0;
         double bestFreqError = Double.MAX_VALUE;
         for (int key = 0; key < keysCount; key++) {
@@ -40,17 +40,16 @@ public class Cypher {
                 bestFreqError = freqError;
                 bestKey = key;
             }
-            System.out.println(" key - " + " " + key + " " + "\t freqError - " + " " + freqError);
         }
-        return bestKey;
+        return decrypt(encryptedText, bestKey);
     }
 
     private int alphabetRecognize(String encryptedText) {
-        int engLetters = 0;
-        int ukrLetters = 0;
         int ukrCharset = 1000;
         int engAbc = 0;
         int ukrAbc = 1;
+        int engLetters = 0;
+        int ukrLetters = 0;
         for (int i = 0; i < encryptedText.length(); i++) {
             char charAt = encryptedText.charAt(i);
             if (charAt >= 'A' && charAt <= 'z') engLetters++;
@@ -62,7 +61,7 @@ public class Cypher {
 
     private double textFrequencyError(String encryptedText, int abcIndex) {
         encryptedText = encryptedText.toUpperCase();
-        String abc = Constants.ALPHABETS[abcIndex];
+        String abc = Constants.ABCS[abcIndex];
         double textLettersFreq[] = new double[abc.length() / 2];
         for (int i = 0; i < encryptedText.length(); i++) {
             char charAt = encryptedText.charAt(i);
@@ -74,17 +73,15 @@ public class Cypher {
 
         double averageError = 0.0;
         double bestError = Double.MAX_VALUE;
-        double lettersFrequency[] = Constants.LETTERS_FREQUENCY[abcIndex];
+        double lettersFrequency[] = Constants.LETTER_FREQUENCY[abcIndex];
         for (int i = 0; i < textLettersFreq.length; i++) {
             double letter = textLettersFreq[i] * 100 / encryptedText.length();
             double frequency = lettersFrequency[i];
             double error = letter / frequency;
             averageError += error;
-//            System.out.println(ABC.charAt(i) + " " + (int) textLetterFreq[i] + " " + letter + " " + frequency + " " + error);
         }
         averageError /= textLettersFreq.length;
         if (averageError < 0.1) averageError = Double.MAX_VALUE;
-//        System.out.println("averageError - " + averageError);
         if (averageError < bestError) bestError = averageError;
         return bestError;
     }

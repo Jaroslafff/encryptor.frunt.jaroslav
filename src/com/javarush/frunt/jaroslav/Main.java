@@ -1,14 +1,14 @@
 package com.javarush.frunt.jaroslav;
 
 import com.javarush.frunt.jaroslav.command_line.CommandLine;
-import com.javarush.frunt.jaroslav.constants.Constants;
 import com.javarush.frunt.jaroslav.encryptor.Cypher;
+import com.javarush.frunt.jaroslav.enums.CypherMode;
 import com.javarush.frunt.jaroslav.file_engine.FileEngine;
 
 public class Main {
 
     static String originText;
-    static String encryptedString;
+    static String processedText;
     static String decryptedString;
 
     static Cypher cypher = new Cypher();
@@ -19,31 +19,11 @@ public class Main {
         CommandLine commandLine = new CommandLine(args);
 
         originText = fileEngine.read(commandLine.getPath());
-//        encryptedText = cypher.encrypt(originText, commandLine.getKey());
-//        Path pathEncrypted = fileEngine.write(commandLine.getCypherMode(), commandLine.getPath(), encryptedText);
-//
-//        originText = "";
-//        encryptedText = "";
-//        encryptedText = fileEngine.read(pathEncrypted);
-//        originText = cypher.decrypt(encryptedText, commandLine.getKey());
-//        fileEngine.write(CypherMode.DECRYPT, commandLine.getPath(), originText);
-
-//        cypher(Constants.ALPHABETS[0] + Constants.ALPHABETS[1], commandLine.getKey());
-//        for (int key = -50; key < 50; key++) {
-//            cypher(originText = Constants.ALPHABETS[0], key);
-//        }
-
-        System.out.println();
-        encryptedString = cypher.encrypt(originText, 5);
-        System.out.println(cypher.bruteForce(encryptedString));
-
+        processedText = switch (commandLine.getCypherMode()) {
+            case ENCRYPT -> cypher.encrypt(originText, commandLine.getKey());
+            case DECRYPT -> cypher.decrypt(originText, commandLine.getKey());
+            case BRUTE_FORCE -> cypher.bruteForce(originText);
+        };
+        fileEngine.write(commandLine.getCypherMode(), commandLine.getPath(), processedText);
     }
-
-    static void cypher(String originString, int key) {
-        encryptedString = cypher.encrypt(originString, key);
-        decryptedString = cypher.decrypt(encryptedString, key);
-//        System.out.println("\n" + originString + "\n" + encryptedString + "\n" + decryptedString);
-        System.out.println(encryptedString + " " + decryptedString);
-    }
-
 }
