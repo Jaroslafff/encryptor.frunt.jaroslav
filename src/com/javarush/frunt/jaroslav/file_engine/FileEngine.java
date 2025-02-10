@@ -35,7 +35,7 @@ public class FileEngine {
 
     private Path alterPath(CypherMode mode, Path path) {
         String pathString = path.toString();
-        int index = pathString.indexOf('.');
+        int index = pathString.lastIndexOf('.');
         String fileName = pathString.substring(0, index);
         String fileExt = pathString.substring(index, pathString.length());
 
