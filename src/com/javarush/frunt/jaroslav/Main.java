@@ -2,7 +2,6 @@ package com.javarush.frunt.jaroslav;
 
 import com.javarush.frunt.jaroslav.command_line.CommandLine;
 import com.javarush.frunt.jaroslav.encryptor.Cypher;
-import com.javarush.frunt.jaroslav.enums.CypherMode;
 import com.javarush.frunt.jaroslav.file_engine.FileEngine;
 
 public class Main {

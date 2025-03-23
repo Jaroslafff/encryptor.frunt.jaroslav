@@ -1,8 +1,5 @@
 package com.javarush.frunt.jaroslav.constants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class Constants {
 
     public static final String[] ABCS = {"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",

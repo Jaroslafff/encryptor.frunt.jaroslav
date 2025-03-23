@@ -8,8 +8,8 @@ import java.nio.file.Path;
 
 public class FileEngine {
 
-    private final String ENCRYPTED = "[ENCRYPTED]";
-    private final String DECRYPTED = "[DECRYPTED]";
+    private static final String ENCRYPTED = "[ENCRYPTED]";
+    private static final String DECRYPTED = "[DECRYPTED]";
 
     public FileEngine() {
     }
@@ -24,10 +24,10 @@ public class FileEngine {
         return text;
     }
 
-    public Path write(CypherMode mode, Path path, String text) {
+    public void write(CypherMode mode, Path path, String text) {
         path = alterPath(mode, path);
         try {
-            return Files.writeString(path, text);
+            Files.writeString(path, text);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -37,7 +37,7 @@ public class FileEngine {
         String pathString = path.toString();
         int index = pathString.lastIndexOf('.');
         String fileName = pathString.substring(0, index);
-        String fileExt = pathString.substring(index, pathString.length());
+        String fileExt = pathString.substring(index);
 
         pathString = switch (mode) {
             case ENCRYPT -> fileName + ENCRYPTED + fileExt;

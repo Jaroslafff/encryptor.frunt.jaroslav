@@ -71,6 +71,11 @@ public class Cypher {
             }
         }
 
+        double bestError = getBestError(encryptedText, abcIndex, textLettersFreq);
+        return bestError;
+    }
+
+    private double getBestError(String encryptedText, int abcIndex, double[] textLettersFreq) {
         double averageError = 0.0;
         double bestError = Double.MAX_VALUE;
         double lettersFrequency[] = Constants.LETTER_FREQUENCY[abcIndex];
